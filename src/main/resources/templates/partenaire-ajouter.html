@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d0d14">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f4ef">
+    <meta name="current-user-id" th:content="${currentUser.userId}">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <title>LTC App — Ajouter un partenaire</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,1,0"
+        rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/CSS/nav.css}" href="/CSS/nav.css">
+    <link rel="stylesheet" th:href="@{/CSS/partenaire.css}" href="/CSS/partenaire.css">
+</head>
+
+<body>
+
+    <header class="top-header">
+        <div class="header-left">
+            <a th:href="@{/accueil}" href="/accueil" class="brand-link" aria-label="Accueil LTC App">
+                <div class="logo-icon" aria-hidden="true">
+                    <span class="material-symbols-outlined">favorite</span>
+                </div>
+                <span class="logo-name">LTC App</span>
+            </a>
+        </div>
+
+        <div class="header-center">
+            <nav class="desktop-nav" aria-label="Navigation principale">
+                <a th:href="@{/accueil}" href="/accueil" class="desktop-nav-link">
+                    <span class="material-symbols-outlined" aria-hidden="true">home</span>
+                    <span>Accueil</span>
+                </a>
+                <a th:href="@{/liens}" href="/liens" class="desktop-nav-link">
+                    <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
+                    <span>Mes liens</span>
+                </a>
+                <a th:href="@{/verifier}" href="/verifier" class="desktop-nav-link">
+                    <span class="material-symbols-outlined" aria-hidden="true">document_scanner</span>
+                    <span>Vérifier</span>
+                </a>
+                <a th:href="@{/profil}" href="/profil" class="desktop-nav-link">
+                    <span class="material-symbols-outlined" aria-hidden="true">person</span>
+                    <span>Moi</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="header-right">
+            <a th:href="@{/accueil}" href="/accueil" class="header-btn" aria-label="Retour à l'accueil" title="Retour">
+                <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+            </a>
+            <a th:href="@{/profil}" href="/profil" class="user-avatar-btn" aria-label="Mon profil">
+                <img th:if="${currentUser.photoUrl != null and !currentUser.photoUrl.isEmpty()}"
+                    th:src="${currentUser.photoUrl}" alt="Photo de profil">
+                <span th:unless="${currentUser.photoUrl != null and !currentUser.photoUrl.isEmpty()}"
+                    class="avatar-initials" th:text="${currentUser.initials}">SU</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="page-scroll">
+        <div class="page-hero">
+            <div class="page-hero-icon" aria-hidden="true">
+                <span class="material-symbols-outlined">person_add</span>
+            </div>
+            <div class="page-hero-text">
+                <h1>Ajouter un partenaire</h1>
+                <p>Recherchez un utilisateur ou profitez des profils actuellement en ligne.</p>
+            </div>
+        </div>
+
+        <div class="search-card" role="search">
+            <div class="search-label">Rechercher</div>
+            <div class="search-field-wrap">
+                <span class="material-symbols-outlined" aria-hidden="true">search</span>
+                <input id="searchInput" class="search-input" type="search" placeholder="Nom, prénom ou e-mail…"
+                    autocomplete="off" aria-label="Rechercher un partenaire" minlength="2">
+                <button id="clearBtn" class="search-clear-btn" type="button" aria-label="Effacer la recherche">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+        </div>
+        <section id="resultsSection" class="results-section" aria-live="polite" aria-atomic="false">
+            <div id="hintState" class="hint-state">
+                <span class="material-symbols-outlined" aria-hidden="true">manage_search</span>
+                <strong>Trouvez votre partenaire</strong>
+                <span>Tapez au moins 2 caractères pour lancer la recherche.</span>
+            </div>
+        </section><br>
+        
+        <section class="online-section" aria-labelledby="onlineUsersTitle">
+            <div class="online-section-head">
+                <div class="online-section-copy">
+                    <h2 id="onlineUsersTitle">Utilisateurs en ligne</h2>
+                    <p>Envoyez une demande directement aux profils disponibles maintenant.</p>
+                </div>
+            </div>
+
+            <div id="onlineUsersPanel" class="online-users-panel" aria-live="polite" aria-busy="true">
+                <div class="skeleton-list" aria-label="Chargement des utilisateurs en ligne" role="status">
+                    <div class="skeleton-card" aria-hidden="true">
+                        <div class="skeleton-av"></div>
+                        <div class="skeleton-lines">
+                            <div class="skeleton-line short"></div>
+                            <div class="skeleton-line shorter"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-card" aria-hidden="true">
+                        <div class="skeleton-av"></div>
+                        <div class="skeleton-lines">
+                            <div class="skeleton-line short"></div>
+                            <div class="skeleton-line shorter"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-card" aria-hidden="true">
+                        <div class="skeleton-av"></div>
+                        <div class="skeleton-lines">
+                            <div class="skeleton-line short"></div>
+                            <div class="skeleton-line shorter"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <nav class="bottom-nav" role="navigation" aria-label="Navigation principale">
+        <a th:href="@{/accueil}" href="/accueil" class="nav-item" aria-label="Accueil">
+            <div class="nav-item-icon">
+                <span class="material-symbols-outlined" aria-hidden="true">home</span>
+            </div>
+            <span class="nav-label">Accueil</span>
+        </a>
+        <a th:href="@{/liens}" href="/liens" class="nav-item" aria-label="Mes liens">
+            <div class="nav-item-icon">
+                <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
+            </div>
+            <span class="nav-label">Mes liens</span>
+        </a>
+        <a th:href="@{/verifier}" href="/verifier" class="nav-item" aria-label="Vérifier">
+            <div class="nav-item-icon">
+                <span class="material-symbols-outlined" aria-hidden="true">document_scanner</span>
+            </div>
+            <span class="nav-label">Vérifier</span>
+        </a>
+        <a th:href="@{/chat}" href="/chat" class="nav-item" aria-label="Chat">
+            <div class="nav-item-icon">
+                <span class="material-symbols-outlined" aria-hidden="true">message</span>
+            </div>
+            <span class="nav-label">Chat</span>
+        </a>
+        <a th:href="@{/profil}" href="/profil" class="nav-item" aria-label="Mon profil">
+            <div class="nav-item-icon">
+                <span class="material-symbols-outlined" aria-hidden="true">person</span>
+            </div>
+            <span class="nav-label">Moi</span>
+        </a>
+    </nav>
+
+    <div id="confirmModal" class="confirm-modal" hidden aria-hidden="true">
+        <div id="confirmBackdrop" class="confirm-modal-backdrop"></div>
+        <div class="confirm-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="confirmTitle"
+            aria-describedby="confirmMessage">
+            <div class="confirm-modal-icon" aria-hidden="true">
+                <span class="material-symbols-outlined">warning</span>
+            </div>
+            <div class="confirm-modal-content">
+                <h2 id="confirmTitle">Utilisateur déjà en relation</h2>
+                <p id="confirmMessage">Cette personne est déjà dans une relation active. Voulez-vous quand même envoyer
+                    la demande&nbsp;?</p>
+            </div>
+            <div class="confirm-modal-actions">
+                <button id="confirmCancelBtn" type="button" class="confirm-btn confirm-btn-secondary">Annuler</button>
+                <button id="confirmCrushBtn" type="button" class="confirm-btn confirm-btn-tertiary">Ajouter comme
+                    crush</button>
+                <button id="confirmProceedBtn" type="button" class="confirm-btn confirm-btn-primary">Envoyer quand
+                    même</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <script th:src="@{/JS/partenaire.js}" src="/JS/partenaire.js" defer></script>
+</body>
+
+</html>

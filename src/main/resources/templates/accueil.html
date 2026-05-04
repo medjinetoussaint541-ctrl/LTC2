@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#0d0d14">
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f4ef">
+        <meta name="_csrf" th:content="${_csrf.token}">
+        <meta name="_csrf_header" th:content="${_csrf.headerName}">
+        <title>LTC App — Accueil</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,1,0" rel="stylesheet">
+
+        <link rel="stylesheet" th:href="@{/CSS/nav.css}" href="/CSS/nav.css">
+        <link rel="stylesheet" th:href="@{/CSS/accueil.css}" href="/CSS/accueil.css">
+    </head>
+    <body th:attr="data-unread-messages=${stats.unreadMessages}">
+
+        <header class="top-header">
+            <div class="header-left">
+                <a th:href="@{/accueil}" href="/accueil" class="brand-link" aria-label="Accueil LTC App">
+                    <div class="logo-icon" aria-hidden="true">
+                        <span class="material-symbols-outlined">favorite</span>
+                    </div>
+                    <span class="logo-name">LTC App</span>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <nav class="desktop-nav" aria-label="Navigation principale">
+                    <a th:href="@{/accueil}" href="/accueil" class="desktop-nav-link active" aria-current="page">
+                        <span class="material-symbols-outlined" aria-hidden="true">home</span>
+                        <span>Accueil</span>
+                    </a>
+                    <a th:href="@{/liens}" href="/liens" class="desktop-nav-link">
+                        <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
+                        <span>Mes liens</span>
+                    </a>
+                    <a th:href="@{/verifier}" href="/verifier" class="desktop-nav-link">
+                        <span class="material-symbols-outlined" aria-hidden="true">document_scanner</span>
+                        <span>Vérifier</span>
+                    </a>
+                    <a th:href="@{/profil}" href="/profil" class="desktop-nav-link">
+                        <span class="material-symbols-outlined" aria-hidden="true">person</span>
+                        <span>Moi</span>
+                    </a>
+                    <a th:href="@{/chat}" href="/chat" class="desktop-nav-link">
+                        <span class="desktop-nav-icon-wrap">
+                            <span class="material-symbols-outlined" aria-hidden="true">message</span>
+                            <span class="nav-unread-dot"
+                                  data-chat-unread-dot
+                                  aria-hidden="true"
+                                  th:attr="hidden=${stats.unreadMessages == 0} ? 'hidden' : null"></span>
+                        </span>
+                        <span>Chat</span>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="header-right">
+                <a th:href="@{/historique}" href="/historique" class="header-btn" aria-label="Historique et notifications" title="Historique">
+                    <span class="material-symbols-outlined" aria-hidden="true">notifications</span>
+                    <span class="notif-dot"
+                          data-notification-dot
+                          aria-hidden="true"
+                          th:attr="hidden=${stats.notificationCount == 0} ? 'hidden' : null"></span>
+                </a>
+                <a th:href="@{/profil}" href="/profil" class="user-avatar-btn" aria-label="Mon profil">
+                    <img th:if="${currentUser.photoUrl}" th:src="${currentUser.photoUrl}" alt="Photo de profil">
+                    <span th:unless="${currentUser.photoUrl}" class="avatar-initials" th:text="${currentUser.initials}">SU</span>
+                </a>
+            </div>
+        </header>
+
+        <main class="page-scroll">
+            <section class="hero-layout" aria-label="Résumé du compte">
+                <div class="greeting-banner">
+                    <div class="greeting-avatar" aria-hidden="true">
+                        <img th:if="${currentUser.photoUrl}" th:src="${currentUser.photoUrl}" alt="">
+                        <span th:unless="${currentUser.photoUrl}" class="avatar-initials large" th:text="${currentUser.initials}">SU</span>
+                    </div>
+
+                    <div class="greeting-text">
+                        <div class="greeting-hello">Bonjour</div>
+                        <div class="greeting-name" th:text="${currentUser.fullName}">Sophie Dubois</div>
+                        <div class="greeting-status">
+                            <span class="status-dot" aria-hidden="true"></span>
+        <!--                    <span th:text="${stats.relations == 1 ? '1 relation active' : stats.relations + ' relations actives'}">1 relation active</span>-->
+                            <span th:text="${stats.relations > 0 ? 'Relation active' : 'Pas de relation active'}">Relation active</span>
+                        </div>
+                    </div>
+
+                    <div class="greeting-actions">
+                        <a th:href="@{/partenaire/ajouter}" href="/partenaire/ajouter"
+                           class="add-partner-btn"
+                           aria-label="Ajouter un partenaire"
+                           title="Ajouter un partenaire">
+                            <span class="material-symbols-outlined" aria-hidden="true">person_add</span>
+                            <span class="add-partner-btn-label">Ajouter un partenaire</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="stats-row" role="list" aria-label="Statistiques">
+                    <div class="stat-card" role="listitem">
+                        <div class="stat-icon" aria-hidden="true">
+                            <span class="material-symbols-outlined">favorite</span>
+                        </div>
+                        <div class="stat-value rose" th:text="${stats.relations}">1</div>
+                        <div class="stat-label">Relation<br>active</div>
+                    </div>
+                    <div class="stat-card" role="listitem">
+                        <div class="stat-icon" aria-hidden="true">
+                            <span class="material-symbols-outlined">mark_email_read</span>
+                        </div>
+                        <div class="stat-value gold" th:text="${stats.demandes}">3</div>
+                        <div class="stat-label">Demandes<br>reçues</div>
+                    </div>
+                    <div class="stat-card" role="listitem">
+                        <div class="stat-icon" aria-hidden="true">
+                            <span class="material-symbols-outlined">history</span>
+                        </div>
+                        <div class="stat-value teal" th:text="${stats.historique}">12</div>
+                        <div class="stat-label">Activités<br>liées</div>
+                    </div>
+                    <div class="stat-card" role="listitem">
+                        <div class="stat-icon" aria-hidden="true">
+                            <span class="material-symbols-outlined">visibility</span>
+                        </div>
+                        <div class="stat-value purple" th:text="${stats.crushsAjoutes}">0</div>
+                        <div class="stat-label">Crushs<br>ajoutés<br>actifs</div>
+                    </div>
+                    <div class="stat-card" role="listitem">
+                        <div class="stat-icon" aria-hidden="true">
+                            <span class="material-symbols-outlined">shield_lock</span>
+                        </div>
+                        <div class="stat-value teal" th:text="${stats.crushsRecus}">0</div>
+                        <div class="stat-label">Crushs<br>reçus<br>actifs</div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-main">
+                    <section class="pending-section" aria-label="Demandes en attente">
+                        <div class="section-hd">
+                            <h2>Demandes en attente</h2>
+                            <a th:href="@{/liens}" href="/liens">
+                                Voir tout
+                                <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+                            </a>
+                        </div>
+
+                        <div id="pendingList" th:if="${!#lists.isEmpty(pendingRequests)}">
+                            <div class="pending-card"
+                                 th:each="request : ${pendingRequests}"
+                                 th:attr="data-card-id=${request.id}">
+                                <div class="pc-avatar" aria-hidden="true">
+                                    <img th:if="${request.photoUrl}" th:src="${request.photoUrl}" alt="">
+                                    <span th:unless="${request.photoUrl}" class="avatar-initials" th:text="${request.initials}">LM</span>
+                                </div>
+                                <div class="pc-info">
+                                    <div class="pc-name" th:text="${request.fullName}">Léa Martin</div>
+                                    <div class="pc-sub">
+                                        Demande reçue
+                                        <span th:text="${request.relativeTime}">Il y a 2 h</span>
+                                    </div>
+                                </div>
+                                <div class="pc-actions">
+                                    <button class="btn-accept"
+                                            th:attr="data-id=${request.id},data-label=${request.firstName}"
+                                            aria-label="Accepter la demande">
+                                        <span class="material-symbols-outlined" aria-hidden="true">check</span>
+                                    </button>
+                                    <button class="btn-decline"
+                                            th:attr="data-id=${request.id},data-label=${request.firstName}"
+                                            aria-label="Refuser la demande">
+                                        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="pendingEmptyState" class="empty-state" th:if="${#lists.isEmpty(pendingRequests)}">
+                            <span class="material-symbols-outlined" aria-hidden="true">mark_email_read</span>
+                            <p>Aucune demande en attente pour le moment.</p>
+                        </div>
+                    </section>
+
+                    <section class="activity-section" aria-label="Activité récente">
+                        <div class="section-hd">
+                            <h2>Activité récente</h2>
+                            <a th:href="@{/historique}" href="/historique">
+                                Tout voir
+                                <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+                            </a>
+                        </div>
+
+                        <div class="activity-list" role="list" th:if="${!#lists.isEmpty(activityItems)}">
+                            <div class="act-item" role="listitem" th:each="activity : ${activityItems}">
+                                <div class="act-icon-wrap" th:classappend="' ' + ${activity.accent}" aria-hidden="true">
+                                    <span class="material-symbols-outlined" th:text="${activity.icon}">favorite</span>
+                                </div>
+                                <div class="act-body">
+                                    <div class="act-title" th:text="${activity.title}">Demande acceptée</div>
+                                    <div class="act-sub" th:text="${activity.subtitle}">par Thomas Renaud</div>
+                                </div>
+                                <time class="act-time" th:text="${activity.timeLabel}">Il y a 2 h</time>
+                            </div>
+                        </div>
+
+                        <div class="empty-state" th:if="${#lists.isEmpty(activityItems)}">
+                            <span class="material-symbols-outlined" aria-hidden="true">history</span>
+                            <p>Aucune activité récente à afficher.</p>
+                        </div>
+                    </section>
+                </div>
+
+                <aside class="dashboard-side">
+                    <section class="relation-section" aria-label="Ma relation active">
+                        <div class="section-hd">
+                            <h2>Ma relation</h2>
+                            <a th:href="@{/liens}" href="/liens">
+                                Détails
+                                <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+                            </a>
+                        </div>
+
+                        <div class="relation-card" th:if="${activeRelation != null}">
+                            <div class="rel-top">
+                                <div class="rel-avatars-wrap" aria-hidden="true">
+                                    <div class="rel-avatars" style="position: relative; width: 70px; height: 38px;">
+                                        <div class="rel-av rel-av-self" style="position: absolute; left: 0;">
+                                            <img th:if="${currentUser.photoUrl}" th:src="${currentUser.photoUrl}" alt="">
+                                            <span th:unless="${currentUser.photoUrl}" class="avatar-initials" th:text="${currentUser.initials}">SD</span>
+                                        </div>
+                                        <div class="rel-av rel-av-partner" style="position: absolute; left: 24px;">
+                                            <img th:if="${activeRelation.partnerPhotoUrl}" th:src="${activeRelation.partnerPhotoUrl}" alt="">
+                                            <span th:unless="${activeRelation.partnerPhotoUrl}" class="avatar-initials" th:text="${activeRelation.partnerInitials}">TR</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="rel-info">
+                                    <div class="rel-status-badge">
+                                        <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
+                                        <span th:text="${activeRelation.statusLabel}">En couple</span>
+                                    </div>
+                                    <div class="rel-names" th:text="${currentUser.prenom + ' & ' + activeRelation.partnerFirstName}">Sophie &amp; Thomas</div>
+                                    <div class="rel-since" th:text="${activeRelation.sinceLabel}">Depuis le 14 février 2025</div>
+                                </div>
+                            </div>
+
+                            <div class="rel-timeline" role="list" aria-label="Historique de la relation">
+                                <div class="tl-item" role="listitem">
+                                    <div class="tl-dot rose" aria-hidden="true"></div>
+                                    <div class="tl-body">
+                                        <div class="tl-txt"><strong>Relation active</strong> avec <span th:text="${activeRelation.partnerName}">Thomas Renaud</span></div>
+                                        <time class="tl-time" th:text="${activeRelation.startDateLabel}">14 février 2025</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="empty-state relation-empty" th:if="${activeRelation == null}">
+                            <span class="material-symbols-outlined" aria-hidden="true">favorite_border</span>
+                            <p>Vous n'avez pas encore de relation active enregistrée.</p>
+                            <a th:href="@{/partenaire/ajouter}" href="/partenaire/ajouter" class="empty-cta">Ajouter un partenaire</a>
+                        </div>
+                    </section>
+
+                    <section class="quick-section" aria-label="Actions rapides">
+                        <div class="section-hd">
+                            <h2>Actions rapides</h2>
+                        </div>
+                        <div class="quick-grid">
+                            <a th:href="@{/demande/nouvelle}" href="/demande/nouvelle" class="quick-btn">
+                                <div class="qb-icon rose" aria-hidden="true">
+                                    <span class="material-symbols-outlined">person_add</span>
+                                </div>
+                                <div>
+                                    <div class="qb-label">Nouvelle demande</div>
+                                    <div class="qb-sub">Inviter un partenaire</div>
+                                </div>
+                            </a>
+                            <a th:href="@{/liens}" href="/liens" class="quick-btn">
+                                <div class="qb-icon gold" aria-hidden="true">
+                                    <span class="material-symbols-outlined">favorite_border</span>
+                                </div>
+                                <div>
+                                    <div class="qb-label">Mes liens</div>
+                                    <div class="qb-sub">Consulter les relations</div>
+                                </div>
+                            </a>
+                            <a th:href="@{/verifier}" href="/verifier" class="quick-btn">
+                                <div class="qb-icon purple" aria-hidden="true">
+                                    <span class="material-symbols-outlined">face_retouching_natural</span>
+                                </div>
+                                <div>
+                                    <div class="qb-label">Vérifier</div>
+                                    <div class="qb-sub">Contrôle d'identité</div>
+                                </div>
+                            </a>
+                            <form th:action="@{/logout}" method="post" class="quick-logout-form">
+                                <button type="submit" class="quick-btn quick-btn-submit">
+                                    <div class="qb-icon teal" aria-hidden="true">
+                                        <span class="material-symbols-outlined">logout</span>
+                                    </div>
+                                    <div>
+                                        <div class="qb-label">Se déconnecter</div>
+                                        <div class="qb-sub">Fermer la session</div>
+                                    </div>
+                                </button>
+                            </form>
+                        </div>
+                    </section>
+                </aside>
+            </div>
+        </main>
+
+        <nav class="bottom-nav" role="navigation" aria-label="Navigation principale">
+            <a th:href="@{/accueil}" href="/accueil" class="nav-item active" aria-current="page" aria-label="Accueil">
+                <div class="nav-item-icon">
+                    <span class="material-symbols-outlined" aria-hidden="true">home</span>
+                </div>
+                <span class="nav-label">Accueil</span>
+            </a>
+            <a th:href="@{/liens}" href="/liens" class="nav-item" aria-label="Mes liens">
+                <div class="nav-item-icon">
+                    <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
+                    <span class="nav-badge" th:if="${stats.demandes > 0}" th:text="${stats.demandes}">3</span>
+                </div>
+                <span class="nav-label">Mes liens</span>
+            </a>
+            <a th:href="@{/verifier}" href="/verifier" class="nav-item" aria-label="Vérifier">
+                <div class="nav-item-icon">
+                    <span class="material-symbols-outlined" aria-hidden="true">document_scanner</span>
+                </div>
+                <span class="nav-label">Vérifier</span>
+            </a>
+            <a th:href="@{/chat}" href="/chat" class="nav-item" aria-label="Chat">
+                <div class="nav-item-icon">
+                    <span class="material-symbols-outlined" aria-hidden="true">message</span>
+                    <span class="nav-unread-dot"
+                          data-chat-unread-dot
+                          aria-hidden="true"
+                          th:attr="hidden=${stats.unreadMessages == 0} ? 'hidden' : null"></span>
+                </div>
+                <span class="nav-label">Chat</span>
+            </a>
+            <a th:href="@{/profil}" href="/profil" class="nav-item" aria-label="Mon profil">
+                <div class="nav-item-icon">
+                    <span class="material-symbols-outlined" aria-hidden="true">person</span>
+                </div>
+                <span class="nav-label">Moi</span>
+            </a>
+        </nav>
+
+        <div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
+
+        <script th:src="@{/JS/accueil.js}" src="/JS/accueil.js" defer></script>
+    </body>
+</html>

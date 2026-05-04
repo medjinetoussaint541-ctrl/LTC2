@@ -1,0 +1,34 @@
+# Build Maven / Java
+target/
+out/
+bin/
+
+# Logs and crash dumps
+*.log
+logs/
+hs_err_pid*
+replay_pid*
+
+# IDE / editors
+.idea/
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+*.iml
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local environment / sensitive config
+.env
+.env.*
+!.env.example
+
+# properties
+src/main/resources/application.properties

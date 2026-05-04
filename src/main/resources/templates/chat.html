@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d0d14">
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f4ef">
+        <meta name="_csrf" th:content="${_csrf.token}">
+        <meta name="_csrf_header" th:content="${_csrf.headerName}">
+        <title>Chat</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,1,0" rel="stylesheet">
+
+        <link rel="stylesheet" th:href="@{/CSS/nav.css}" href="/CSS/nav.css">
+        <link rel="stylesheet" th:href="@{/CSS/chat.css}" href="/CSS/chat.css">
+        <style>
+            #messagesContainer {
+                max-height: clamp(320px, 58vh, 620px);
+                overflow-y: auto;
+                scroll-behavior: smooth;
+                overscroll-behavior: contain;
+            }
+        </style>
+    </head>
+    <body>
+        <header class="top-header">
+            <div class="header-left">
+                <a th:href="@{/accueil}" href="/accueil" class="brand-link" aria-label="Accueil LTC App">
+                    <div class="logo-icon" aria-hidden="true">
+                        <span class="material-symbols-outlined">favorite</span>
+                    </div>
+                    <span class="logo-name">LTC App</span>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <nav class="desktop-nav" aria-label="Navigation principale">
+                    <a th:href="@{/accueil}" href="/accueil" class="desktop-nav-link">
+                        <span class="material-symbols-outlined" aria-hidden="true">home</span>
+                        <span>Accueil</span>
+                    </a>
+                    <a th:href="@{/liens}" href="/liens" class="desktop-nav-link">
+                        <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
+                        <span>Mes liens</span>
+                    </a>
+                    <a th:href="@{/verifier}" href="/verifier" class="desktop-nav-link">
+                        <span class="material-symbols-outlined" aria-hidden="true">document_scanner</span>
+                        <span>Vérifier</span>
+                    </a>
+                    <a th:href="@{/profil}" href="/profil" class="desktop-nav-link">
+                        <span class="material-symbols-outlined" aria-hidden="true">person</span>
+                        <span>Moi</span>
+                    </a>
+                    <a th:href="@{/chat}" href="/chat" class="desktop-nav-link active" aria-current="page">
+                        <span class="material-symbols-outlined" aria-hidden="true">message</span>
+                        <span>Chat</span>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="header-right">
+                <a th:href="@{/partenaire/ajouter}" href="/partenaire/ajouter" class="header-btn" aria-label="Ajouter un partenaire" title="Ajouter un partenaire">
+                    <span class="material-symbols-outlined" aria-hidden="true">person_add</span>
+                </a>
+                <a th:href="@{/profil}" href="/profil" class="user-avatar-btn" aria-label="Mon profil">
+                    <img th:if="${currentUser.photoUrl}" th:src="${currentUser.photoUrl}" alt="Photo de profil">
+                    <span th:unless="${currentUser.photoUrl}" class="avatar-initials" th:text="${currentUser.initials}">SU</span>
+                </a>
+            </div>
+        </header>
+
+        <main class="page-scroll">
+            <section class="chat-layout">
+                <aside class="sidebar-stack">
+                    <article class="info-card">
+                        <div class="panel-head">
+                            <div>
+                                <h2>Votre conversation</h2>
+                                <p>Une seule conversation est autorisée: celle avec votre partenaire actuel.</p>
+                            </div>
+                        </div>
+
+                        <div class="partner-card" th:if="${activeRelation != null}">
+                            <div class="partner-top">
+                                <div class="partner-avatar" aria-hidden="true">
+                                    <img th:if="${activeRelation.partnerPhotoUrl}" th:src="${activeRelation.partnerPhotoUrl}" alt="">
+                                    <span th:unless="${activeRelation.partnerPhotoUrl}" class="avatar-initials large" th:text="${activeRelation.partnerInitials}">PR</span>
+                                </div>
+                                <div class="partner-meta">
+                                    <div class="partner-name" th:text="${activeRelation.partnerName}">Nom du partenaire</div>
+                                    <div class="partner-email" th:text="${activeRelation.partnerEmail}">email@example.com</div>
+                                    <div id="partnerPresenceLine"
+                                         class="partner-presence-line"
+                                         th:if="${chat.partnerPresence != null}"
+                                         th:classappend="${chat.partnerPresence.online} ? ' is-online' : ' is-offline'">
+                                        <span class="presence-dot" aria-hidden="true"></span>
+                                        <span id="partnerPresenceLabel" th:text="${chat.partnerPresence.statusLabel}">En ligne</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="meta-grid">
+                                <div class="meta-item">
+                                    <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
+                                    <div>
+                                        <strong>Ma relation</strong>
+                                        <span th:text="${activeRelation.sinceLabel}">Depuis le 14 février 2026</span>
+                                    </div>
+                                </div>
+                                <div class="meta-item" th:if="${chat.partnerPresence != null}">
+                                    <span class="material-symbols-outlined" aria-hidden="true">schedule</span>
+                                    <div>
+                                        <strong>Présence</strong>
+                                        <span id="partnerPresenceDetail" th:text="${chat.partnerPresence.detailLabel}">En ligne maintenant</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="empty-panel" th:unless="${activeRelation != null}">
+                            <span class="material-symbols-outlined">person_off</span>
+                            <strong>Aucune relation active</strong>
+                            <span>Le chat sera disponible dès qu’un lien actif sera confirmé.</span>
+                        </div>
+                    </article>
+                </aside>
+
+                <section class="chat-panel">
+                    <div class="chat-panel-head">
+                        <div class="chat-panel-title">
+                            <h2 th:text="${chat.canChat ? activeRelation.partnerName : 'Conversation indisponible'}">Conversation</h2>
+                        </div>
+                        <div id="partnerPresenceChip"
+                             class="presence-chip"
+                             th:if="${chat.partnerPresence != null}"
+                             th:classappend="${chat.partnerPresence.online} ? ' is-online' : ' is-offline'">
+                            <span class="presence-dot" aria-hidden="true"></span>
+                            <span id="partnerPresenceChipLabel" th:text="${chat.partnerPresence.statusLabel}">En ligne</span>
+                        </div>
+                    </div>
+
+                    <div id="messagesContainer" class="messages-container" th:classappend="${chat.canChat} ? '' : ' is-disabled'">
+                        <div id="messageList" class="message-list" th:if="${chat.canChat}">
+                            <article class="message-row"
+                                     th:each="message : ${messages}"
+                                     th:classappend="${message.mine} ? ' is-mine' : ' is-partner'"
+                                     th:attr="data-message-id=${message.id}">
+                                <div class="message-avatar" aria-hidden="true" th:unless="${message.mine}">
+                                    <img th:if="${message.senderPhotoUrl}" th:src="${message.senderPhotoUrl}" alt="">
+                                    <span th:unless="${message.senderPhotoUrl}" class="avatar-initials" th:text="${message.senderInitials}">PR</span>
+                                </div>
+                                <div class="message-bubble" th:classappend="${message.newForCurrentUser} ? ' is-new' : ''">
+                                    <span class="message-new-dot"
+                                          aria-hidden="true"
+                                          th:if="${message.newForCurrentUser}"></span>
+                                    <div class="message-text" th:text="${message.content}">Bonjour</div>
+                                    <div class="message-meta">
+                                        <span th:text="${message.senderName}">Vous</span>
+                                        <time th:text="${message.timeLabel}" th:attr="datetime=${message.dateTimeLabel}">09:24</time>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+
+                        <div id="conversationEmpty"
+                             class="conversation-empty"
+                             th:if="${chat.canChat}"
+                             th:classappend="${#lists.isEmpty(messages)} ? '' : ' is-hidden'">
+                            <span class="material-symbols-outlined" aria-hidden="true">chat_bubble</span>
+                            <strong>La conversation commence ici</strong>
+                            <p>Envoyez le premier message à <span th:text="${activeRelation != null ? activeRelation.partnerFirstName : 'votre partenaire'}">votre partenaire</span>.</p>
+                        </div>
+
+                        <div class="empty-panel" th:unless="${chat.canChat}">
+                            <span class="material-symbols-outlined">forum</span>
+                            <strong>Chat indisponible</strong>
+                            <span>Vous devez avoir une relation active pour accéder à cette conversation privée.</span>
+                        </div>
+                    </div>
+
+                    <form id="chatForm" class="composer" th:if="${chat.canChat}">
+                        <label class="sr-only" for="chatInput">Votre message</label>
+                        <textarea id="chatInput"
+                                  name="content"
+                                  rows="1"
+                                  maxlength="1000"
+                                  th:attr="placeholder=${'Écrivez à ' + activeRelation.partnerFirstName + '...'}"></textarea>
+                        <div class="composer-actions">
+                            <span class="composer-hint">Vos messages sont chiffrés et durent 24h</span>
+                            <button id="sendButton" type="submit" class="send-btn">
+                                <span class="material-symbols-outlined" aria-hidden="true">send</span>
+                                <span>Envoyer</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="composer composer-disabled" th:unless="${chat.canChat}">
+                        <p>Le champ de saisie apparaîtra automatiquement dès qu’une relation active sera créée.</p>
+                    </div>
+                </section>
+            </section>
+        </main>
+
+        <nav class="bottom-nav" role="navigation" aria-label="Navigation principale">
+            <a th:href="@{/accueil}" href="/accueil" class="nav-item" aria-label="Accueil">
+                <div class="nav-item-icon">
+                    <span class="material-symbols-outlined" aria-hidden="true">home</span>
+                </div>
+                <span class="nav-label">Accueil</span>
+            </a>
+            <a th:href="@{/liens}" href="/liens" class="nav-item" aria-label="Mes liens">
+                <div class="nav-item-icon">
+                    <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
+                </div>
+                <span class="nav-label">Mes liens</span>
+            </a>
+            <a th:href="@{/verifier}" href="/verifier" class="nav-item" aria-label="Vérifier">
+                <div class="nav-item-icon">
+                    <span class="material-symbols-outlined" aria-hidden="true">document_scanner</span>
+                </div>
+                <span class="nav-label">Vérifier</span>
+            </a>
+            <a th:href="@{/chat}" href="/chat" class="nav-item active" aria-label="Chat" aria-current="page">
+                <div class="nav-item-icon">
+                    <span class="material-symbols-outlined" aria-hidden="true">message</span>
+                </div>
+                <span class="nav-label">Chat</span>
+            </a>
+            <a th:href="@{/profil}" href="/profil" class="nav-item" aria-label="Mon profil">
+                <div class="nav-item-icon">
+                    <span class="material-symbols-outlined" aria-hidden="true">person</span>
+                </div>
+                <span class="nav-label">Moi</span>
+            </a>
+        </nav>
+
+        <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+        <script th:src="@{/JS/chat.js}" src="/JS/chat.js" defer></script>
+    </body>
+</html>

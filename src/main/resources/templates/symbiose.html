@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d0d14">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f4ef">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <title>LTC App — Symbiose</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,1,0" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/CSS/nav.css}" href="/CSS/nav.css">
+    <link rel="stylesheet" th:href="@{/CSS/symbiose.css}" href="/CSS/symbiose.css">
+</head>
+<body>
+
+    <header class="top-header">
+        <div class="header-left">
+            <a th:href="@{/accueil}" href="/accueil" class="brand-link" aria-label="Accueil LTC App">
+                <div class="logo-icon" aria-hidden="true">
+                    <span class="material-symbols-outlined">favorite</span>
+                </div>
+                <span class="logo-name">LTC App</span>
+            </a>
+        </div>
+        <div class="header-center">
+            <nav class="desktop-nav" aria-label="Navigation principale">
+                <a th:href="@{/accueil}" href="/accueil" class="desktop-nav-link">
+                    <span class="material-symbols-outlined" aria-hidden="true">home</span>
+                    <span>Accueil</span>
+                </a>
+                <a th:href="@{/liens}" href="/liens" class="desktop-nav-link">
+                    <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
+                    <span>Mes liens</span>
+                </a>
+                <a th:href="@{/verifier}" href="/verifier" class="desktop-nav-link">
+                    <span class="material-symbols-outlined" aria-hidden="true">document_scanner</span>
+                    <span>Vérifier</span>
+                </a>
+                <a th:href="@{/profil}" href="/profil" class="desktop-nav-link">
+                    <span class="material-symbols-outlined" aria-hidden="true">person</span>
+                    <span>Moi</span>
+                </a>
+                <a th:href="@{/chat}" href="/chat" class="desktop-nav-link">
+                    <span class="material-symbols-outlined" aria-hidden="true">message</span>
+                    <span>Chat</span>
+                </a>
+            </nav>
+        </div>
+        <div class="header-right">
+            <a th:href="@{/partenaire/ajouter}" href="/partenaire/ajouter" class="header-btn" aria-label="Ajouter un partenaire" title="Ajouter un partenaire">
+                <span class="material-symbols-outlined" aria-hidden="true">person_add</span>
+            </a>
+            <a th:href="@{/profil}" href="/profil" class="user-avatar-btn" aria-label="Mon profil">
+                <img th:if="${profil.currentUserView.photoUrl}" th:src="${profil.currentUserView.photoUrl}" alt="Photo de profil">
+                <span th:unless="${profil.currentUserView.photoUrl}" class="avatar-initials" th:text="${profil.currentUserView.initials}">SU</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="page-scroll">
+        <!-- EN-TÊTE DE LA PAGE SYMBIOSE -->
+        <div class="symbiose-header">
+            <h1 class="symbiose-title"> Symbiose</h1>
+            <p class="symbiose-subtitle">
+                Renforcez votre relation avec complicité et plaisir.<br>
+                Découvrez des jeux et des activités à vivre à deux.
+            </p>
+        </div>
+
+        <!-- SECTION JEUX À DEUX -->
+        <section class="symbiose-section">
+            <div class="section-header">
+                <span class="material-symbols-outlined">sports_esports</span>
+                <h2>Jeux à deux</h2>
+            </div>
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-icon">
+                        <span class="material-symbols-outlined">quiz</span>
+                    </div>
+                    <h3 class="game-title">Quiz de couple</h3>
+                    <p class="game-desc">Testez vos connaissances l’un sur l’autre.</p>
+                    <button class="btn-symbiose" data-game="quiz">Jouer</button>
+                </div>
+                <div class="game-card">
+                    <div class="game-icon">
+                        <span class="material-symbols-outlined">forum</span>
+                    </div>
+                    <h3 class="game-title">20 questions</h3>
+                    <p class="game-desc">Apprenez-en plus sur votre partenaire.</p>
+                    <button class="btn-symbiose" data-game="questions">Commencer</button>
+                </div>
+                <div class="game-card">
+                    <div class="game-icon">
+                        <span class="material-symbols-outlined">brush</span>
+                    </div>
+                    <h3 class="game-title">Défi dessin</h3>
+                    <p class="game-desc">Dessinez et devinez en duo.</p>
+                    <button class="btn-symbiose" data-game="draw">Lancer</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION FILMS À REGARDER ENSEMBLE -->
+        <section class="symbiose-section">
+            <div class="section-header">
+                <span class="material-symbols-outlined">movie</span>
+                <h2>Films à regarder ensemble</h2>
+            </div>
+            <div class="movies-grid">
+                <div class="movie-card">
+                    <div class="movie-icon">
+                        <span class="material-symbols-outlined">movie</span>
+                    </div>
+                    <h3 class="movie-title">Annecdote</h3>
+                    <p class="movie-desc">Une amitié hors du commun.</p>
+                    <button class="btn-symbiose" data-movie="intouchables">Raconter</button>
+                </div>
+                <div class="movie-card">
+                    <div class="movie-icon">
+                        <span class="material-symbols-outlined">favorite</span>
+                    </div>
+                    <h3 class="movie-title">Dedicace</h3>
+                    <p class="movie-desc">Romance intemporelle.</p>
+                    <button class="btn-symbiose" data-movie="notebook">Commencer</button>
+                </div>
+                <div class="movie-card">
+                    <div class="movie-icon">
+                        <span class="material-symbols-outlined">music_note</span>
+                    </div>
+                    <h3 class="movie-title">Lalaland</h3>
+                    <p class="movie-desc">Comédie musicale envoûtante.</p>
+                    <button class="btn-symbiose" data-movie="lalaland">Voir la fiche</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <nav class="bottom-nav" role="navigation" aria-label="Navigation principale">
+        <a th:href="@{/accueil}" href="/accueil" class="nav-item" aria-label="Accueil">
+            <div class="nav-item-icon"><span class="material-symbols-outlined" aria-hidden="true">home</span></div>
+            <span class="nav-label">Accueil</span>
+        </a>
+        <a th:href="@{/liens}" href="/liens" class="nav-item" aria-label="Mes liens">
+            <div class="nav-item-icon"><span class="material-symbols-outlined" aria-hidden="true">favorite</span></div>
+            <span class="nav-label">Mes liens</span>
+        </a>
+        <a th:href="@{/verifier}" href="/verifier" class="nav-item" aria-label="Vérifier">
+            <div class="nav-item-icon"><span class="material-symbols-outlined" aria-hidden="true">document_scanner</span></div>
+            <span class="nav-label">Vérifier</span>
+        </a>
+        <a th:href="@{/chat}" href="/chat" class="nav-item" aria-label="Chat">
+            <div class="nav-item-icon"><span class="material-symbols-outlined" aria-hidden="true">message</span></div>
+            <span class="nav-label">Chat</span>
+        </a>
+        <a th:href="@{/profil}" href="/profil" class="nav-item" aria-label="Mon profil">
+            <div class="nav-item-icon"><span class="material-symbols-outlined" aria-hidden="true">person</span></div>
+            <span class="nav-label">Moi</span>
+        </a>
+    </nav>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <script th:src="@{/JS/symbiose.js}" src="/JS/symbiose.js" defer></script>
+</body>
+</html>

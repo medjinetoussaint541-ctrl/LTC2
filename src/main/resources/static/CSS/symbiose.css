@@ -1,0 +1,290 @@
+/* ────────────────────────────────────────────────────────────
+   LTC App – Page Symbiose (design épuré & moderne)
+   Version responsive : centrage, marges symétriques, adaptation mobile
+   ──────────────────────────────────────────────────────────── */
+
+/* ------ Variables (cohérentes avec le thème de l'application) ------ */
+:root {
+    color-scheme: dark;
+
+    --rose:    #e8637a;
+    --blush:   #f0a0b0;
+    --gold:    #d4a96a;
+    --teal:    #10d9c4;
+
+    --dark:    #0d0d14;
+    --dark2:   #13131f;
+
+    --card-bg: rgba(255, 255, 255, 0.04);
+    --surface-soft: rgba(255, 255, 255, 0.04);
+
+    --border:  rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.14);
+
+    --text:    #f0eae8;
+    --muted:   rgba(240, 234, 232, 0.68);
+    --time-muted: rgba(240, 234, 232, 0.32);
+
+    --nav-bg: rgba(13, 13, 20, 0.60);
+
+    --mesh-rose: rgba(232, 99, 122, 0.12);
+    --mesh-gold: rgba(212, 169, 106, 0.10);
+    --mesh-purple: rgba(139, 92, 246, 0.07);
+
+    --card-hover-shadow: 0 20px 60px rgba(0, 0, 0, 0.30);
+    --accent-hover-shadow: 0 20px 60px rgba(232, 99, 122, 0.15);
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        color-scheme: light;
+        --dark:    #f7f4ef;
+        --dark2:   #ffffff;
+        --card-bg: rgba(255, 255, 255, 0.82);
+        --surface-soft: rgba(29, 26, 31, 0.04);
+        --border:  rgba(29, 26, 31, 0.10);
+        --border-strong: rgba(29, 26, 31, 0.16);
+        --text:    #1d1a1f;
+        --muted:   rgba(29, 26, 31, 0.68);
+        --nav-bg: rgba(247, 244, 239, 0.78);
+        --mesh-rose: rgba(232, 99, 122, 0.13);
+        --mesh-gold: rgba(212, 169, 106, 0.11);
+        --mesh-purple: rgba(139, 92, 246, 0.08);
+    }
+}
+
+/* ------ Base & fond ------ */
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 80% 60% at 10% 10%, var(--mesh-rose) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 90% 80%, var(--mesh-gold) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 60% 30%, var(--mesh-purple) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Conteneur principal avec marges auto et padding adaptatif */
+.page-scroll {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 24px 18px calc(var(--bottom-nav-h, 70px) + 30px);
+    position: relative;
+    z-index: 1;
+}
+
+/* ------ En-tête de la page Symbiose ------ */
+.symbiose-header {
+    text-align: center;
+    margin-bottom: 56px;
+    margin-top: 20px;
+}
+
+.symbiose-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(40px, 7vw, 64px);
+    background: linear-gradient(135deg, var(--rose), var(--gold));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+}
+
+.symbiose-subtitle {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* ------ Sections générales ------ */
+.symbiose-section {
+    margin-bottom: 64px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+}
+
+.section-header .material-symbols-outlined {
+    font-size: 32px;
+    color: var(--rose);
+}
+
+.section-header h2 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* ------ Grilles des jeux & films ------ */
+.games-grid, .movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 28px;
+}
+
+.game-card, .movie-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 28px 20px;
+    text-align: center;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    backdrop-filter: blur(4px);
+    word-break: break-word; /* évite les débordements de texte */
+}
+
+.game-card:hover, .movie-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--border-strong);
+    box-shadow: var(--card-hover-shadow);
+}
+
+.game-icon, .movie-icon {
+    font-size: 56px;
+    margin-bottom: 20px;
+}
+
+.game-title, .movie-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text);
+}
+
+.game-desc, .movie-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.btn-symbiose {
+    background: linear-gradient(135deg, var(--rose), #c94f66);
+    border: none;
+    border-radius: 50px;
+    padding: 12px 24px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+    box-shadow: 0 4px 14px rgba(232, 99, 122, 0.3);
+}
+
+.btn-symbiose:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 24px rgba(232, 99, 122, 0.5);
+}
+
+/* ------ Toast (identique au profil) ------ */
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(var(--bottom-nav-h, 70px) + 18px);
+    transform: translateX(-50%) translateY(16px);
+    min-width: min(92vw, 340px);
+    max-width: min(92vw, 440px);
+    padding: 12px 16px;
+    border-radius: 14px;
+    background: rgba(13, 13, 20, 0.92);
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.2s;
+    z-index: 140;
+    font-weight: 500;
+    backdrop-filter: blur(12px);
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.symbiose {
+    background: linear-gradient(135deg, #f5b042, #e8892f);
+    color: white;
+    border: none;
+    box-shadow: 0 8px 20px rgba(245, 176, 66, 0.4);
+}
+
+/* ------ Responsive : tablette et moins (≤ 860px) ------ */
+@media (max-width: 860px) {
+    .games-grid, .movies-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .section-header h2 {
+        font-size: 1.5rem;
+    }
+    .btn-symbiose {
+        max-width: 100%;
+    }
+    .symbiose-header {
+        margin-bottom: 40px;
+    }
+}
+
+/* ------ Responsive : mobiles (≤ 600px) ------ */
+@media (max-width: 600px) {
+    .page-scroll {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .symbiose-title {
+        font-size: clamp(32px, 8vw, 44px);
+    }
+    .symbiose-subtitle {
+        font-size: 1rem;
+    }
+    .section-header {
+        gap: 8px;
+    }
+    .section-header .material-symbols-outlined {
+        font-size: 28px;
+    }
+    .section-header h2 {
+        font-size: 1.3rem;
+    }
+    .game-card, .movie-card {
+        padding: 20px 16px;
+    }
+    .game-icon, .movie-icon {
+        font-size: 48px;
+    }
+    .game-title, .movie-title {
+        font-size: 1.2rem;
+    }
+    .btn-symbiose {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+    }
+}

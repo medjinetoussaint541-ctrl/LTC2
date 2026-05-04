@@ -1,0 +1,424 @@
+/* profil.css – LTC App, page "Moi" */ ancien
+body {
+    background:
+        radial-gradient(circle at top left, rgba(232, 99, 122, 0.10), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.08), transparent 34%),
+        linear-gradient(180deg, var(--dark) 0%, var(--dark2) 100%);
+}
+
+.page-scroll {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 24px 18px calc(var(--bottom-nav-h) + var(--safe-bottom) + 30px);
+}
+
+.profil-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.profil-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 22px;
+    transition: box-shadow 0.2s;
+}
+
+.profil-card:hover {
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+}
+
+.card-header .material-symbols-outlined {
+    font-size: 28px;
+    color: var(--rose);
+}
+
+.card-header h2 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.profil-user-info {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.profil-avatar-large {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(232, 99, 122, 0.2), rgba(212, 169, 106, 0.15));
+    border: 2px solid var(--rose);
+    flex-shrink: 0;
+}
+
+.profil-avatar-large img,
+.profil-avatar-large .avatar-initials.large {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+.edit-photo-btn {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text);
+    backdrop-filter: blur(6px);
+}
+
+.edit-photo-btn .material-symbols-outlined {
+    font-size: 18px;
+}
+
+.profil-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--border);
+}
+
+.detail-label {
+    font-weight: 500;
+    color: var(--muted);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.detail-value {
+    font-weight: 500;
+    text-align: right;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 70%;
+    flex: 1 1 auto;
+}
+
+.relation-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.relation-partner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.relation-avatar-small {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--teal);
+    background: rgba(78, 205, 196, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.partner-name {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.partner-email {
+    font-size: 0.8rem;
+    color: var(--muted);
+    word-break: break-word;
+}
+
+.relation-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.relation-status {
+    background: rgba(78, 205, 196, 0.12);
+    border: 1px solid rgba(78, 205, 196, 0.2);
+    border-radius: 30px;
+    padding: 6px 12px;
+    display: inline-block;
+    width: fit-content;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--teal);
+}
+
+.empty-relation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 16px 0;
+    color: var(--muted);
+}
+
+.empty-relation .material-symbols-outlined {
+    font-size: 48px;
+    opacity: 0.6;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--rose);
+    border-radius: 40px;
+    padding: 8px 20px;
+    color: var(--rose);
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.btn-outline:hover {
+    background: var(--rose);
+    color: white;
+}
+
+.promo-card {
+    background: linear-gradient(145deg, rgba(232, 99, 122, 0.08), rgba(139, 92, 246, 0.08));
+    border-color: rgba(232, 99, 122, 0.3);
+}
+
+.promo-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.promo-icon .material-symbols-outlined {
+    font-size: 40px;
+    color: var(--gold);
+}
+
+.promo-content h3 {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+}
+
+.promo-content p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    max-width: 260px;
+}
+
+.btn-pro {
+    background: linear-gradient(135deg, #f5b042, #e8892f);
+    border: none;
+    border-radius: 40px;
+    padding: 10px 24px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+    box-shadow: 0 6px 14px rgba(245, 176, 66, 0.3);
+}
+
+.toast.symbiose {
+    background: linear-gradient(135deg, #f5b042, #e8892f);
+    color: white;
+    border: none;
+    box-shadow: 0 8px 20px rgba(245, 176, 66, 0.4);
+    font-weight: 500;
+}
+
+.toast.info {
+    background: linear-gradient(135deg, var(--rose), var(--blush));
+    color: white;
+    border: none;
+    box-shadow: 0 8px 20px rgba(232, 99, 122, 0.4);
+    font-weight: 500;
+}
+
+.toast.success {
+    background: linear-gradient(135deg, var(--rose), var(--blush));
+    color: white;
+    border: none;
+    box-shadow: 0 8px 20px rgba(232, 99, 122, 0.4);
+    font-weight: 500;
+}
+
+.toast.error {
+    background: linear-gradient(135deg, var(--rose), var(--blush));
+    color: white;
+    border: none;
+    box-shadow: 0 8px 20px rgba(232, 99, 122, 0.4);
+    font-weight: 500;
+}
+
+.btn-pro:hover {
+    transform: scale(1.02);
+}
+
+.settings-card .setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.settings-card .setting-item:last-child {
+    border-bottom: none;
+}
+
+.setting-value.select-like {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface-soft);
+    padding: 5px 12px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-label {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #3b3b48;
+    border-radius: 34px;
+    transition: 0.2s;
+}
+
+.toggle-label:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.2s;
+}
+
+input:checked + .toggle-label {
+    background-color: var(--rose);
+}
+
+input:checked + .toggle-label:before {
+    transform: translateX(24px);
+}
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(var(--bottom-nav-h) + var(--safe-bottom) + 18px);
+    transform: translateX(-50%) translateY(16px);
+    min-width: min(92vw, 340px);
+    max-width: min(92vw, 440px);
+    padding: 12px 16px;
+    border-radius: 14px;
+    background: rgba(13, 13, 20, 0.92);
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.2s;
+    z-index: 140;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 860px) {
+    .profil-grid {
+        grid-template-columns: 1fr;
+    }
+    .promo-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Responsive : mobiles (≤ 600px) */
+@media (max-width: 600px) {
+    .page-scroll {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .profil-card {
+        padding: 18px;
+    }
+    .detail-row {
+        gap: 8px;
+    }
+    .detail-value {
+        max-width: 65%;
+        font-size: 0.85rem;
+    }
+    .card-header h2 {
+        font-size: 1.1rem;
+    }
+    .promo-content p {
+        max-width: 100%;
+    }
+}

@@ -1,0 +1,211 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Apr 25, 2026, 9:44:39 PM
+    Author     : HP
+*/
+
+.history-page {
+    width: min(980px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 28px 0 40px;
+}
+
+.history-hero {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.back-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    text-decoration: none;
+    box-shadow: var(--shadow-soft);
+}
+
+.back-btn:hover {
+    transform: translateY(-1px);
+    background: var(--surface-hover);
+}
+
+.eyebrow {
+    margin: 0 0 4px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--primary);
+}
+
+.history-hero h1 {
+    margin: 0;
+    font-size: clamp(1.55rem, 3vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+}
+
+.history-intro {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+}
+
+.history-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    backdrop-filter: blur(16px);
+}
+
+.history-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.history-card-header h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 750;
+}
+
+.history-card-header p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.history-item {
+    display: grid;
+    grid-template-columns: 46px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+.history-item:hover {
+    background: var(--surface-hover);
+}
+
+.history-icon-wrap {
+    width: 46px;
+    height: 46px;
+    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.history-icon-wrap .material-symbols-outlined {
+    font-size: 23px;
+}
+
+.history-icon-wrap.rose {
+    color: #e8637a;
+    background: rgba(232, 99, 122, 0.14);
+}
+
+.history-icon-wrap.gold {
+    color: #d4a96a;
+    background: rgba(212, 169, 106, 0.16);
+}
+
+.history-icon-wrap.purple {
+    color: #8b5cf6;
+    background: rgba(139, 92, 246, 0.14);
+}
+
+.history-icon-wrap.teal {
+    color: #2fb8aa;
+    background: rgba(47, 184, 170, 0.14);
+}
+
+.history-body {
+    min-width: 0;
+}
+
+.history-body h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.history-body p {
+    margin: 4px 0 0;
+    font-size: 0.82rem;
+    color: var(--muted);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.history-time {
+    color: var(--muted);
+    font-size: 0.78rem;
+    white-space: nowrap;
+}
+
+.history-empty {
+    padding: 52px 24px;
+    text-align: center;
+    color: var(--muted);
+}
+
+.history-empty .material-symbols-outlined {
+    font-size: 42px;
+    margin-bottom: 10px;
+    color: var(--primary);
+}
+
+.history-empty h3 {
+    margin: 0 0 6px;
+    color: var(--text);
+}
+
+.history-empty p {
+    margin: 0;
+}
+
+@media (max-width: 640px) {
+    .history-page {
+        width: min(100% - 24px, 980px);
+        padding-top: 18px;
+    }
+
+    .history-item {
+        grid-template-columns: 42px 1fr;
+    }
+
+    .history-time {
+        grid-column: 2;
+        justify-self: start;
+        margin-top: -6px;
+    }
+}
