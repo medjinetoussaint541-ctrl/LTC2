@@ -35,6 +35,7 @@ public class EmailDeliveryService {
     }
     
 //    Envoie un email contenant le code de vérification.
+    @Async
     public void sendVerificationCode(String destinationEmail, String verificationCode) {
         if (mailSender == null) {
             throw new IllegalStateException("SMTP non configuré.");
@@ -56,6 +57,7 @@ public class EmailDeliveryService {
     
     
     //    Envoie un email contenant le code de réinitialisation de mot de passe.
+    @Async
     public void sendPasswordResetCode(String destinationEmail, String resetCode) {
         if (mailSender == null) {
             throw new IllegalStateException("SMTP non configuré.");
